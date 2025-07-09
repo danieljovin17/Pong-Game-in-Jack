@@ -1,0 +1,45 @@
+class Paddle {
+    //field declaration
+    field int length;
+    field int thickness;
+    field int posX;
+    field int posY;
+
+    //static declaration
+
+    //constructor
+    constructor Paddle new(int pLength, int pThickness, int x, int y) {
+        let length = pLength;
+        let thickness = pThickness;
+        let posX = x;
+        let posY = y;
+        do Screen.drawRectangle(posX,posY-thickness+1,posX+length,posY); //x1,y1 (top left), x2,y2 (bottom right)
+        return this;
+    }
+
+    //dispose
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    //methods (operates on class instances) or functions (static methods)
+
+    //dir =  1 -> move right, dir = -1 -> move left
+    method void move(int dir) {
+        if ((dir = 1) & (posX+length+dir < 512)) {
+            do Screen.drawPixel(posX+length+dir,posY);
+            do Screen.setColor(false);
+            do Screen.drawPixel(posX,posY);
+            do Screen.setColor(true);
+            let posX = posX + dir;
+        }
+        if ((dir = -1) & (posX+dir > 0)) {
+            do Screen.drawPixel(posX+dir,posY);
+            do Screen.setColor(false);
+            do Screen.drawPixel(posX+length,posY);
+            do Screen.setColor(true);
+            let posX = posX + dir;
+        }  
+        return;
+    }
+}

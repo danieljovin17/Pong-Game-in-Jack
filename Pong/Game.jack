@@ -1,0 +1,41 @@
+class Game {
+    field Paddle paddle;
+
+    constructor Game new() {
+        let paddle = Paddle.new(10,1,5,250); //length,thickness, left, and bottom position
+        return this;
+    }
+    
+    method void run() {
+        var char key;
+        var int dir;
+        var boolean exit;
+        let exit = false;
+
+        while (~exit) {
+            //waits for keyboard to be pressed
+            while (key = 0) {
+                let key  = Keyboard.keyPressed();
+                // move ball
+            }
+            //key is pressed
+            if (key = 130) {let dir = -1;} //left arrow
+            if (key = 132) {let dir = 1;} //right arrow
+            if (key = 81) {let exit = true;} //Q
+
+            //waits for keyboard to be released
+            while (~(key = 0)) {
+                do paddle.move(dir);
+                //move ball
+                let key  = Keyboard.keyPressed();
+            }
+        }
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(paddle);
+        do Memory.deAlloc(this);
+        return;
+    }
+}
