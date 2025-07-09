@@ -1,0 +1,37 @@
+class Ball {
+    //field declaration
+    field int thickness;
+    field int posX;
+    field int posY;
+    field int dirX;
+    field int dirY;
+
+    //static declaration
+
+    //constructor
+    constructor Ball new(int bThickness, int x, int y) {
+        let thickness = bThickness;
+        let posX = x;
+        let posY = y;
+        do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
+        return this;
+    }
+
+    //dispose
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    //methods (operates on class instances) or functions (static methods)
+
+    //dir =  1 -> move right, dir = -1 -> move left
+    method void move(int dirX, int dirY) {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
+        do Screen.setColor(true);
+        let posX = posX + dirX;
+        let posY = posY + dirY;
+        do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
+        return;
+    }
+}

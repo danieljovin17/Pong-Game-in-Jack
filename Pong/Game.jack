@@ -1,8 +1,10 @@
 class Game {
     field Paddle paddle;
+    field Ball ball;
 
     constructor Game new() {
         let paddle = Paddle.new(10,1,5,250); //length,thickness, left, and bottom position
+        let ball = Ball.new(1,50,50);
         return this;
     }
     
@@ -16,7 +18,7 @@ class Game {
             //waits for keyboard to be pressed
             while (key = 0) {
                 let key  = Keyboard.keyPressed();
-                // move ball
+                do ball.move(1,1);
             }
             //key is pressed
             if (key = 130) {let dir = -1;} //left arrow
