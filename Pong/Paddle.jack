@@ -4,16 +4,18 @@ class Paddle {
     field int thickness;
     field int posX;
     field int posY;
+    field int speed; //may not be used
 
     //static declaration
 
     //constructor
-    constructor Paddle new(int pLength, int pThickness, int x, int y) {
+    constructor Paddle new(int pLength, int pThickness, int x, int y, int s) {
         let length = pLength;
         let thickness = pThickness;
         let posX = x;
         let posY = y;
-        do Screen.drawRectangle(posX,posY-thickness+1,posX+length,posY); //x1,y1 (top left), x2,y2 (bottom right)
+        let speed = s;
+        do Screen.drawRectangle(posX,posY,posX+length,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
         return this;
     }
 
@@ -24,8 +26,16 @@ class Paddle {
     }
     //methods (operates on class instances) or functions (static methods)
 
+    method int getPosX() {
+        return posX
+    }
+
+    method int getPosY() {
+        return posY
+    }
+
     //dir =  1 -> move right, dir = -1 -> move left
-    method void move(int dir) {
+    method void move(int dir) { //change this to accomodate speed, 1 pixel per loop feels slow
         if ((dir = 1) & (posX+length+dir < 512)) {
             do Screen.drawPixel(posX+length+dir,posY);
             do Screen.setColor(false);

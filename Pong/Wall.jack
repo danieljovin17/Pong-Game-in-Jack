@@ -1,0 +1,25 @@
+class Wall {
+    //field declaration
+    field int thickness;
+    field int wallY; //bottom of the wall
+
+    //static declaration
+
+    //constructor
+    constructor Wall new(int wThickness, int y) {
+        let thickness = wThickness;
+        let wallY = y;
+        do Screen.drawRectangle(0,wallY-thickness,511,wallY); //x1,y1 (top left), x2,y2 (bottom right)
+        return this;
+    }
+
+    //dispose
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method int getWallY() {
+        return wallY;
+    }
+}

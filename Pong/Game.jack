@@ -1,24 +1,35 @@
 class Game {
     field Paddle paddle;
     field Ball ball;
+    field Wall wall;
+    field int hitScore;
 
     constructor Game new() {
-        let paddle = Paddle.new(10,1,5,250); //length,thickness, left, and bottom position
-        let ball = Ball.new(1,50,50);
+        let paddle = Paddle.new(10,1,5,250,0); //length,thickness, left, and bottom position, thickness, paddle speed. thk has to be 1 based on how the code runs now
+        let ball = Ball.new(10,50,200,25,25); //thickness, startingX, startingY, speedX, speedY
+        let wall = Wall.new(10,30); //thickness, startingX
         return this;
     }
     
     method void run() {
         var char key;
         var int dir;
+        var int wallY;
         var boolean exit;
         let exit = false;
+        let wallY = wall.getWallY();
 
+        do Output.printString("PONG START!");
         while (~exit) {
             //waits for keyboard to be pressed
             while (key = 0) {
                 let key  = Keyboard.keyPressed();
-                do ball.move(1,1);
+                do ball.changeDir(wallY); //need to include paddle coordinates
+                do ball.move(wallY);
+                if (ball.checkLose() = true) {
+                    do printLoseMessage();
+                    return;
+                }
             }
             //key is pressed
             if (key = 130) {let dir = -1;} //left arrow
@@ -28,7 +39,12 @@ class Game {
             //waits for keyboard to be released
             while (~(key = 0)) {
                 do paddle.move(dir);
-                //move ball
+                do ball.changeDir(wallY); //need to include paddle coordinates
+                do ball.move(wallY);
+                if (ball.checkLose() = true) {
+                    do printLoseMessage();
+                    return;
+                }
                 let key  = Keyboard.keyPressed();
             }
         }
@@ -36,8 +52,15 @@ class Game {
     }
 
     method void dispose() {
-        do Memory.deAlloc(paddle);
+        do paddle.dispose();
+        do ball.dispose();
+        do wall.dispose();
         do Memory.deAlloc(this);
         return;
+    }
+
+    function void printLoseMessage() {
+        do Output.moveCursor(0,0);
+        do Output.printString("YOU LOST!!!!!!!!!");
     }
 }

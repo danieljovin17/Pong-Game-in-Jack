@@ -9,10 +9,12 @@ class Ball {
     //static declaration
 
     //constructor
-    constructor Ball new(int bThickness, int x, int y) {
+    constructor Ball new(int bThickness, int x, int y, int dX, int dY) {
         let thickness = bThickness;
         let posX = x;
         let posY = y;
+        let dirX = dX; 
+        let dirY = dY; 
         do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
         return this;
     }
@@ -24,14 +26,61 @@ class Ball {
     }
     //methods (operates on class instances) or functions (static methods)
 
-    //dir =  1 -> move right, dir = -1 -> move left
-    method void move(int dirX, int dirY) {
+    method int getBallX() {
+        return posX;
+    }
+
+    method int getBallY() {
+        return posY;
+    }
+
+    method void changeDir(int wallY) {
+        if ((posX = 0) | (posX+thickness-1 = 511)) {
+            let dirX = dirX * -1;
+        }
+
+        if ((posY = wallY)|(posY+thickness-1 = 255)) {
+            let dirY = dirY * -1;
+        }
+        return;
+    }
+
+    method void move(int wallY) {
         do Screen.setColor(false);
         do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
         do Screen.setColor(true);
-        let posX = posX + dirX;
-        let posY = posY + dirY;
+        if (posX + dirX > -1)  {
+            if (posX + dirX + thickness - 1 < 512) {
+                let posX = posX + dirX;
+            }
+            else {
+                let posX = 512-thickness;
+            }
+        }
+        else {
+            let posX = 0;
+        }
+        if (posY + dirY > wallY) {
+            if (posY + dirY + thickness - 1 < 256) {
+                let posY = posY + dirY;
+            }
+            else {
+                let posY = 256-thickness;
+            }
+        }
+        else {
+            let posY = wallY+1;
+        }
         do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
         return;
+    }
+
+    method boolean checkLose() {
+        if (posY+thickness-1 = 255) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

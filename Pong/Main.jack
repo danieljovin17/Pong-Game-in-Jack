@@ -7,3 +7,12 @@ class Main {
         return;
     }
 }
+
+//to do:
+// similarly, for hitting the paddle.
+// affects move, when it is about to hit the paddle, teleport to paddle
+// affects changeDir, when it is at the paddle, change direction
+// think about the sequence of events that should happen (move ball, move paddle, check lose condition, change direction)
+
+//nice features to have:
+// include a bounce counter to indicate player score
