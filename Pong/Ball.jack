@@ -39,7 +39,7 @@ class Ball {
             let dirX = dirX * -1;
         }
 
-        if ((posY = (wallY+1))|((posY+thickness-1) = 255)) {
+        if (posY = (wallY+1)) {
             let dirY = dirY * -1;
         }
         if (((posY+thickness) > (paddleY-1)) & (posX+thickness > paddleX) & (posX < (paddleX+paddleLength))) {
@@ -48,7 +48,10 @@ class Ball {
         return;
     }
 
-    method void move(int wallY) {
+    method void move(int wallY, int i) {
+        if (~(i = 0)) {
+            return;
+        }
         do Screen.setColor(false);
         do Screen.drawRectangle(posX,posY,posX+thickness-1,posY+thickness-1); //x1,y1 (top left), x2,y2 (bottom right)
         do Screen.setColor(true);

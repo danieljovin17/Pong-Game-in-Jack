@@ -3,11 +3,14 @@ class Game {
     field Ball ball;
     field Wall wall;
     field int hitScore;
+    field int ballMove;
+    field int score;
 
     constructor Game new() {
-        let paddle = Paddle.new(505,1,1,250,0); //length,thickness, left, and bottom position, thickness, paddle speed. thk has to be 1 based on how the code runs now
-        let ball = Ball.new(10,50,200,1,1); //thickness, startingX, startingY, speedX, speedY
+        let paddle = Paddle.new(100,1,1,250,0); //length,thickness, left, and bottom position, thickness, paddle speed. thk has to be 1 based on how the code runs now
+        let ball = Ball.new(10,50,200,1,1); //thickness, startingX, startingY, dirX, dirY
         let wall = Wall.new(10,30); //thickness, startingX
+        let ballMove = 11;
         return this;
     }
     
@@ -19,24 +22,29 @@ class Game {
         var int paddleX;
         var int paddleY;
         var int paddleLength;
+        var int i; //counter for ball to decide to move or not
         let exit = false;
         let wallY = wall.getWallY();
         let paddleY = paddle.getPosY();
         let paddleLength = paddle.getLength();
+        let i = 0;
+        let score = 0;
 
-        do Output.printString("PONG START!");
+        do Output.printString("PONG START");
+        //do Output.moveCursor(0,0);
+        //do Output.printString("SCORE:    ")
         while (~exit) {
             //waits for keyboard to be pressed
+            let paddleX = paddle.getPosX();
             while (key = 0) {
                 let key  = Keyboard.keyPressed();
-                do ball.changeDir(wallY,paddle.getPosX(),paddleY,paddleLength); //need to include paddle coordinates
-                do ball.move(wallY);
-                /*
+                do ball.changeDir(wallY,paddleX,paddleY,paddleLength); //need to include paddle coordinates
+                do ball.move(wallY,i);
+                let i = (i+1) - (ballMove * ((i+1)/ballMove));
                 if (ball.checkLose() = true) {
-                    do Game.printLoseMessage();
+                    do printLoseMessage();
                     return;
                 }
-                */
             }
             //key is pressed
             if (key = 130) {let dir = -1;} //left arrow
@@ -47,13 +55,12 @@ class Game {
             while (~(key = 0)) {
                 do paddle.move(dir);
                 do ball.changeDir(wallY,paddle.getPosX(),paddleY,paddleLength); //need to include paddle coordinates
-                do ball.move(wallY);
-                /*
+                do ball.move(wallY,i);
+                let i = (i+1) - (ballMove * ((i+1)/ballMove));
                 if (ball.checkLose() = true) {
-                    do Game.printLoseMessage();
+                    do printLoseMessage();
                     return;
                 }
-                */
                 let key  = Keyboard.keyPressed();
             }
         }
@@ -71,6 +78,10 @@ class Game {
     method void printLoseMessage() {
         do Output.moveCursor(0,0);
         do Output.printString("YOU LOST!!!!!!!!!");
+        return;
+    }
+
+    method void printScore() {
         return;
     }
 }
