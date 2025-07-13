@@ -34,12 +34,15 @@ class Ball {
         return posY;
     }
 
-    method void changeDir(int wallY) {
-        if ((posX = 0) | (posX+thickness-1 = 511)) {
+    method void changeDir(int wallY, int paddleX, int paddleY, int paddleLength) {
+        if ((posX = 0) | ((posX+thickness-1) = 511)) {
             let dirX = dirX * -1;
         }
 
-        if ((posY = wallY)|(posY+thickness-1 = 255)) {
+        if ((posY = (wallY+1))|((posY+thickness-1) = 255)) {
+            let dirY = dirY * -1;
+        }
+        if (((posY+thickness) > (paddleY-1)) & (posX+thickness > paddleX) & (posX < (paddleX+paddleLength))) {
             let dirY = dirY * -1;
         }
         return;
@@ -61,7 +64,7 @@ class Ball {
             let posX = 0;
         }
         if (posY + dirY > wallY) {
-            if (posY + dirY + thickness - 1 < 256) {
+            if ((posY + dirY + thickness - 1) < 256) {
                 let posY = posY + dirY;
             }
             else {
@@ -76,7 +79,7 @@ class Ball {
     }
 
     method boolean checkLose() {
-        if (posY+thickness-1 = 255) {
+        if ((posY+thickness-1) = 255) {
             return true;
         }
         else {

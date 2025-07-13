@@ -27,23 +27,27 @@ class Paddle {
     //methods (operates on class instances) or functions (static methods)
 
     method int getPosX() {
-        return posX
+        return posX;
     }
 
     method int getPosY() {
-        return posY
+        return posY;
+    }
+    
+    method int getLength() {
+        return length;
     }
 
     //dir =  1 -> move right, dir = -1 -> move left
     method void move(int dir) { //change this to accomodate speed, 1 pixel per loop feels slow
-        if ((dir = 1) & (posX+length+dir < 512)) {
+        if ((dir = 1) & ((posX+length+dir) < 512)) {
             do Screen.drawPixel(posX+length+dir,posY);
             do Screen.setColor(false);
             do Screen.drawPixel(posX,posY);
             do Screen.setColor(true);
             let posX = posX + dir;
         }
-        if ((dir = -1) & (posX+dir > 0)) {
+        if ((dir = -1) & ((posX+dir) > 0)) {
             do Screen.drawPixel(posX+dir,posY);
             do Screen.setColor(false);
             do Screen.drawPixel(posX+length,posY);
